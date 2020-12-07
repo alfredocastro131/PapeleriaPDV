@@ -1,0 +1,58 @@
+.navbar-bg-yellow{
+    background-color: rgb(248, 188, 68);
+    width: 100%;
+    position: absolute !important;
+    top:0;
+}
+
+.btn{
+    color: white !important;
+    background-color: rgb(25, 136, 152) !important;
+}
+.btn:hover, .btn.active{
+    background-color: rgb(52, 155, 169) !important;
+}
+
+.container{
+    background-color:  rgb(25, 136, 152,0.5) !important;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    z-index: -2;
+    left: 0; 
+    right: 0; 
+    margin-left: auto; 
+    margin-right: auto;
+}
+
+.content{
+    margin-top: 60px;
+    text-align: center;
+}
+
+.nav-text-color{
+    color: white !Important;
+}
+
+.nav-link{
+    margin: 0px;
+}
+
+.navlink{
+    text-decoration: none !important;
+    color: lightslategray !important;
+    padding: 17px !important;
+    margin: 0px;
+}
+
+.navlink:hover{
+    color: black !important;
+}
+.navlink.active{
+    color: black !important;
+    background-color: rgb(255, 209, 155);
+}
+
+body{
+    background-image: url('../img/background.png');
+}

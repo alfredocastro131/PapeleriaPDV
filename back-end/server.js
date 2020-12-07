@@ -1,12 +1,14 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const PORT = 4000;
 
 let Product = require('./product.model');
 let Supplier = require('./supplier.model');
 
+app.use(cors());
 app.use(bodyParser.json());
 
 const productRoute = express.Router();
