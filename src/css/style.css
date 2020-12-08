@@ -5,11 +5,23 @@
     top:0;
 }
 
-.btn{
+.MuiTablePagination-root, .MuiTableFooter-root{
+    background-color: rgb(247, 108, 127);
+}
+
+.MuiTableRow-root:hover{
+    background-color: rgb(253, 230, 234);
+}
+
+.MuiTableCell-root{
+    padding: 10px !important;
+}
+
+.btn-nueva-venta{
     color: white !important;
     background-color: rgb(25, 136, 152) !important;
 }
-.btn:hover, .btn.active{
+.btn-nueva-venta:hover, .btn-nueva-venta.active{
     background-color: rgb(52, 155, 169) !important;
 }
 

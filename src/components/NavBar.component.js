@@ -7,7 +7,7 @@ export default class NavBar extends React.Component{
     render(){
         return(
                 <Navbar className="navbar-bg-yellow" expand="lg">
-                    <NavLink to="/nuevaventa" className="btn" style={{marginRight:18}}>Nueva venta</NavLink>
+                    <NavLink to="/nuevaventa" className="btn btn-nueva-venta" style={{marginRight:18}}>Nueva venta</NavLink>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">

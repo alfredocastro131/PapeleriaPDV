@@ -25,17 +25,29 @@ export default class Inventario extends React.Component{
             { title: 'Descripcion', field: 'product_description' },
             { title: 'Cantidad', field: 'product_total_cuantity', type: 'numeric' },
             { title: 'Precio', field: 'product_sell_unit_price', type: 'numeric' },
-            { title: 'Precio por paquete', field: 'product_sell_package_price', type: 'numeric' }
+            { title: 'Precio por paquete', field: 'product_sell_package_price', type: 'numeric' },
+            {
+                align: "center",
+                render: (rowData) =>
+                    rowData && (
+                        <div>
+                            <button className = "btn btn-primary" style={{margin:2}}>Editar</button>
+                            <button className = "btn btn-danger" style={{margin:2}} >Borrar</button>
+                        </div>
+                    )
+            }
         ];
 
         const options = {
             exportButton: true,
             pageSizeOptions: [],   
-            pageSize: 10,
+            pageSize: 8,
             headerStyle: {
-                'font-weight': 'bold',
-                'background-color': 'rgb(251, 152, 166)'
-            }
+                fontWeight: 'bold',
+                backgroundColor: 'rgb(251, 152, 166)'
+            },
+            paginationType: "stepped",
+            searchAutoFocus: true
         }
         return(
             <div>

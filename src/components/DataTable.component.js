@@ -1,6 +1,5 @@
 import React from 'react';
 import MaterialTable, {MTableToolbar, MTablePagination} from 'material-table';
-import { rgbToHex } from '@material-ui/core';
 
 export default class DataTable extends React.Component {
 
@@ -22,12 +21,7 @@ export default class DataTable extends React.Component {
                             <div style={{backgroundColor: 'rgb(247, 108, 127)'}}>
                                 <MTableToolbar {...props}/>
                             </div>
-                        ),
-                        Pagination: props =>(
-                            <div style={{backgroundColor: 'rgb(247, 108, 127)'}}>
-                                <MTablePagination {...props}/>
-                            </div>
-                        ),
+                        )
                     }}
                 />
             </div>
