@@ -16,6 +16,7 @@ export default class DataTable extends React.Component {
                     data={this.props.data}
                     title={this.props.title}
                     options = {this.props.options}
+                    isLoading = {this.props.isLoading}
                     components={{
                         Toolbar: props =>(
                             <div style={{backgroundColor: 'rgb(247, 108, 127)'}}>

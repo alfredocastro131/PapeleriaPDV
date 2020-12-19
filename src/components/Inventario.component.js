@@ -1,5 +1,9 @@
 import React from 'react';
+import {Grid} from '@material-ui/core';
+import Button from 'react-bootstrap/Button';
 import DataTable from './DataTable.component';
+import Asker from './Asker';
+import AlertBootstrap from "./AlertBootstrap";
 import axios from 'axios';
 
 export default class Inventario extends React.Component{
@@ -7,8 +11,11 @@ export default class Inventario extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            products: []
+            products: [],
+            isLoading: false
         }
+        this.asker = React.createRef();
+        this.alert = React.createRef();
     }
 
     async componentDidMount(){
@@ -16,6 +23,25 @@ export default class Inventario extends React.Component{
         if(response){
             if(response.status == 200){
                 this.setState({products: response.data});
+            }
+        }
+    }
+
+    borrarProducto(id){
+        this.asker.current.open(id);
+    }
+
+    async confirmarBorrado(id){
+        this.setState({isLoading:true});
+        var resDelete = await axios.delete('http://localhost:4000/products/delete/'+id).catch(()=>{
+            this.setState({isLoading:false});
+            this.alert.current.displayDanger("Error al eliminar el elemento");
+        });
+        if(resDelete !== undefined){
+            if(resDelete.status == 200){
+                this.setState({products: this.state.products.filter(item => item._id !== id)});
+                this.setState({isLoading:false});
+                this.alert.current.displaySuccess("Elemento eliminado correctamente.");
             }
         }
     }
@@ -32,7 +58,7 @@ export default class Inventario extends React.Component{
                     rowData && (
                         <div>
                             <button className = "btn btn-primary" style={{margin:2}}>Editar</button>
-                            <button className = "btn btn-danger" style={{margin:2}} >Borrar</button>
+                            <button className = "btn btn-danger" style={{margin:2}} onClick={this.borrarProducto.bind(this,rowData._id)}>Borrar</button>
                         </div>
                     )
             }
@@ -51,7 +77,18 @@ export default class Inventario extends React.Component{
         }
         return(
             <div>
-                <DataTable title={"Inventario"} columns={columns} data={this.state.products} options = {options}/>
+                <Asker ref={this.asker} confirm={this.confirmarBorrado.bind(this)}/>
+                
+
+                <Grid container spacing={1}>
+                    <AlertBootstrap ref={this.alert} />
+                    <Grid item xs={12} style={{margin:5, textAlign:"right"}}>
+                        <Button variant="primary" onClick={this.handleClick}>Agregar</Button>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <DataTable title={"Inventario"} columns={columns} data={this.state.products} options = {options} isLoading = {this.state.isLoading} />
+                    </Grid>
+                </Grid>
             </div>
         );
     }

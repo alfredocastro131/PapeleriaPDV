@@ -1,3 +1,9 @@
+.alert{
+    right: 50px !important;
+    width: 303px !important;
+    position: fixed !important;
+}
+
 .navbar-bg-yellow{
     background-color: rgb(248, 188, 68);
     width: 100%;

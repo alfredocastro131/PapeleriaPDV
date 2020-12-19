@@ -47,7 +47,14 @@ productRoute.route('/add').post(function(req,res){
     });
 });
 
-
+productRoute.route('/delete/:id').delete(function(req,res){
+    Product.findByIdAndRemove(req.params.id, function(err){
+        if(err)
+            res.json({error: err});
+        else
+            res.json({respuesta: 'Eliminado'});
+    });
+});
 
 supplierRoute.route('/').get(function(req,res){
     Supplier.find(function(err, supplier){
