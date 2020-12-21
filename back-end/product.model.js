@@ -23,6 +23,9 @@ let Product = new Schema({
     product_sell_package_price: {
         type: Number
     },
+    product_status: {
+        type: String
+    },
     product_register_date: {
         type: Date
     },

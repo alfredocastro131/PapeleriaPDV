@@ -2,6 +2,7 @@ import React from 'react';
 import {Grid} from '@material-ui/core';
 import Button from 'react-bootstrap/Button';
 import DataTable from './DataTable.component';
+import ModalProducto from "./ModalProducto";
 import Asker from './Asker';
 import AlertBootstrap from "./AlertBootstrap";
 import axios from 'axios';
@@ -16,6 +17,7 @@ export default class Inventario extends React.Component{
         }
         this.asker = React.createRef();
         this.alert = React.createRef();
+        this.modalProducto = React.createRef();
     }
 
     async componentDidMount(){
@@ -30,6 +32,8 @@ export default class Inventario extends React.Component{
     borrarProducto(id){
         this.asker.current.open(id);
     }
+
+    handleClick =  () => this.modalProducto.current.abrirModal();
 
     async confirmarBorrado(id){
         this.setState({isLoading:true});
@@ -46,6 +50,10 @@ export default class Inventario extends React.Component{
         }
     }
 
+    editarProducto(id){
+        this.modalProducto.current.abrirModal(id);
+    }
+
     render(){
         const columns = [
             { title: 'Descripcion', field: 'product_description' },
@@ -57,7 +65,7 @@ export default class Inventario extends React.Component{
                 render: (rowData) =>
                     rowData && (
                         <div>
-                            <button className = "btn btn-primary" style={{margin:2}}>Editar</button>
+                            <button className = "btn btn-primary" style={{margin:2}} onClick={this.editarProducto.bind(this,rowData._id)} >Editar</button>
                             <button className = "btn btn-danger" style={{margin:2}} onClick={this.borrarProducto.bind(this,rowData._id)}>Borrar</button>
                         </div>
                     )
@@ -78,7 +86,7 @@ export default class Inventario extends React.Component{
         return(
             <div>
                 <Asker ref={this.asker} confirm={this.confirmarBorrado.bind(this)}/>
-                
+                <ModalProducto ref={this.modalProducto} alert = {this.alert}/>
 
                 <Grid container spacing={1}>
                     <AlertBootstrap ref={this.alert} />

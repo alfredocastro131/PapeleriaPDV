@@ -38,11 +38,16 @@ productRoute.route('/').get(function(req,res){
     });
 });
 
+productRoute.route('/:id').get(function(req,res){
+    Product.findById(req.params.id).then(product => res.json(product)).catch(err => res.status(400).json('Error: '+err));
+});
+
 productRoute.route('/add').post(function(req,res){
     let product = new Product(req.body);
     product.save().then(product => {
         res.status(200).json({'product': 'Producto guardado correctamente'});
     }).catch(err => {
+        console.log(res.res);
         res.status(400).send('Fallo al guardar el producto');
     });
 });
