@@ -23,7 +23,7 @@ export default class Inventario extends React.Component{
     async componentDidMount(){
         var response = await axios.get('http://localhost:4000/products/').catch(error => console.log(error));
         if(response){
-            if(response.status == 200){
+            if(response.status === 200){
                 this.setState({products: response.data});
             }
         }
@@ -42,7 +42,7 @@ export default class Inventario extends React.Component{
             this.alert.current.displayDanger("Error al eliminar el elemento");
         });
         if(resDelete !== undefined){
-            if(resDelete.status == 200){
+            if(resDelete.status === 200){
                 this.setState({products: this.state.products.filter(item => item._id !== id)});
                 this.setState({isLoading:false});
                 this.alert.current.displaySuccess("Elemento eliminado correctamente.");

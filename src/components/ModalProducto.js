@@ -1,8 +1,10 @@
-import React, {useState} from 'react';
+import React, {Fragment} from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import {Grid} from '@material-ui/core';
-import InputGroup from 'react-bootstrap/InputGroup';
+import {DatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { esES } from '@material-ui/core/locale';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 
@@ -11,6 +13,7 @@ class ModalProducto extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            suppliers: [],
             show: false,
             title: 'Agregar prodocuto',
             descripcion: '',
@@ -20,20 +23,28 @@ class ModalProducto extends React.Component {
             cantidadTotal: '',
             precioVentaUnidad: '',
             precioVentaPaquete: '',
-            status: '1',
+            status: '0',
             fechaRegistro: '',
             proveedor: '5fb69ba6ff96213eb8ad036f'
         }
     }
+
+    async componentDidMount(){
+        var response = await axios.get('http://localhost:4000/suppliers/').catch(error => console.log(error));
+        if(response){
+            if(response.status === 200){
+                this.setState({suppliers: response.data});
+            }
+        }
+    }
     
     async abrirModal(id){
-        debugger;
         if(id){
             var producto = await axios.get('http://localhost:4000/products/'+id).catch(()=>{
                 this.props.alert.current.displayDanger("Error obtener los datos del producto");
             });
             if(producto !== undefined){
-                if(producto.status == 200){
+                if(producto.status === 200){
                     this.setState({
                         title: 'Editar producto',
                         descripcion: producto.data.product_description,
@@ -54,11 +65,27 @@ class ModalProducto extends React.Component {
     }
 
     cerrarModal(){
-        this.setState({show: false});
+        this.closeForm();
     }
 
     onSave(){
-        this.setState({show: false});
+        this.closeForm();
+    }
+
+    closeForm(){
+        this.setState({
+            show: false,
+            descripcion: '',
+            precioCompra: '',
+            cantidadPaquetes: '0',
+            cantidadPorPaquete: '0',
+            cantidadTotal: '',
+            precioVentaUnidad: '',
+            precioVentaPaquete: '',
+            status: '0',
+            fechaRegistro: '',
+            proveedor: '5fb69ba6ff96213eb8ad036f'
+        });
     }
     
     render(){
@@ -69,25 +96,87 @@ class ModalProducto extends React.Component {
                 <Modal.Title>{this.state.title}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Grid container spacing={0}>
-                            <Grid item xs={1} align="center">
-                                <label for="descripcion">Descripcion:</label>
+                    <Grid container spacing={3}>
+                            <Grid item container justify='center'>
+                                <Grid item xs={1} align="center">
+                                    <label>Descripcion:</label>
+                                </Grid>
+                                <Grid item xs={10}>
+                                    <Form.Control defaultValue={this.state.descripcion}/>
+                                </Grid>
                             </Grid>
-                            <Grid item xs={9}>
-                                <Form.Control defaultValue={this.state.descripcion}/>
+                            <Grid item container justify='center'>
+                                <Grid item xs={2} align="center" style={{marginTop:10}}>
+                                    <label>Precio de compra:</label>
+                                </Grid>
+                                <Grid item xs={1} style={{marginTop:10}}>
+                                    <Form.Control type="number" defaultValue={this.state.precioCompra}/>
+                                </Grid>
+                                <Grid item xs={2} align="center" style={{marginTop:10}}>
+                                    <label>Cantidad de paquetes:</label>
+                                </Grid>
+                                <Grid item xs={1} style={{marginTop:10}}>
+                                    <Form.Control type="number" defaultValue={this.state.cantidadPaquetes}/>
+                                </Grid>
+                                <Grid item xs={2} align="center" style={{marginTop:10}}>
+                                    <label>Cantidad por paquete:</label>
+                                </Grid>
+                                <Grid item xs={1} style={{marginTop:10}}>
+                                    <Form.Control type="number" defaultValue={this.state.cantidadPorPaquete}/>
+                                </Grid>
                             </Grid>
-                            
-                            <Grid item xs={1} align="center" style={{marginTop:10}}>
-                                <label for="descripcion">Precio de compra:</label>
+                            <Grid item container justify='center'>
+                                <Grid item xs={2} align="center" style={{marginTop:10}}>
+                                    <label>Cantidad total:</label>
+                                </Grid>
+                                <Grid item xs={1} style={{marginTop:10}}>
+                                    <Form.Control type="number" defaultValue={this.state.cantidadTotal}/>
+                                </Grid>
+                                <Grid item xs={2} align="center" style={{marginTop:10}}>
+                                    <label>Precio por unidad:</label>
+                                </Grid>
+                                <Grid item xs={1} style={{marginTop:10}}>
+                                    <Form.Control type="number" defaultValue={this.state.precioVentaUnidad}/>
+                                </Grid>
+                                <Grid item xs={2} align="center" style={{marginTop:10}}>
+                                    <label>Precio por paquete:</label>
+                                </Grid>
+                                <Grid item xs={1} style={{marginTop:10}}>
+                                    <Form.Control type="number" defaultValue={this.state.precioVentaPaquete}/>
+                                </Grid>
                             </Grid>
-                            <Grid item xs={1} style={{marginTop:10}}>
-                                <Form.Control type="number" defaultValue={this.state.precioCompra}/>
-                            </Grid>
-                            <Grid item xs={1} align="center" style={{marginTop:10}}>
-                                <label for="descripcion">Cantidad de paquetes:</label>
-                            </Grid>
-                            <Grid item xs={1} style={{marginTop:10}}>
-                                <Form.Control type="number" defaultValue={this.state.precioCompra}/>
+                            <Grid item container justify='center'>
+                                <Grid item xs={1} align="center" style={{marginTop:10}}>
+                                    <label>Estatus:</label>
+                                </Grid>
+                                <Grid item xs={2} style={{marginTop:10}}>
+                                    <Form.Control as="select" defaultValue={this.state.status}>
+                                        <option value='0'>Seleccione:</option>
+                                        <option value='D'>Disponible</option>
+                                        <option value= 'ND'>No Disponible</option>
+                                        <option value='DT'>Disponible por Temporada</option>
+                                        <option value='A'>Activo</option>
+                                        <option value='I'>Inactivo</option>
+                                    </Form.Control>
+                                </Grid>
+                                <Grid item xs={2} style={{marginTop:10}}>
+                                    <MuiPickersUtilsProvider>
+                                        <DatePicker
+                                            variant="inline"
+                                            theme={
+                                                createMuiTheme({
+                                                    palette: {
+                                                      primary: { main: '#1976d2' },
+                                                    },
+                                                  }, esES)
+                                            }
+                                            label="Fecha de registro"
+                                            value={this.state.fechaRegistro}
+                                            onChange={value => this.setState({fechaRegistro: value})}
+                                        />
+                                    </MuiPickersUtilsProvider>
+                                
+                                </Grid>
                             </Grid>
                     </Grid>
                 </Modal.Body>

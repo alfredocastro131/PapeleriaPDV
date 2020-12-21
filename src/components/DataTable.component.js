@@ -1,12 +1,7 @@
 import React from 'react';
-import MaterialTable, {MTableToolbar, MTablePagination} from 'material-table';
+import MaterialTable, {MTableToolbar} from 'material-table';
 
 export default class DataTable extends React.Component {
-
-    constructor(props) {
-        super(props);
-        
-    }
 
     render(){
         return(
