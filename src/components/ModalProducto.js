@@ -2,9 +2,6 @@ import React, {Fragment} from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import {Grid} from '@material-ui/core';
-import {DatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import { esES } from '@material-ui/core/locale';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 
@@ -58,6 +55,7 @@ class ModalProducto extends React.Component {
                         fechaRegistro: producto.data.product_register_date,
                         proveedor: producto.data.product_supplier
                     });
+                    debugger;
                 }
             }
         }
@@ -159,23 +157,18 @@ class ModalProducto extends React.Component {
                                         <option value='I'>Inactivo</option>
                                     </Form.Control>
                                 </Grid>
+                                <Grid item xs={1} align="center" style={{marginTop:10}}>
+                                    <label>Proveedor:</label>
+                                </Grid>
                                 <Grid item xs={2} style={{marginTop:10}}>
-                                    <MuiPickersUtilsProvider>
-                                        <DatePicker
-                                            variant="inline"
-                                            theme={
-                                                createMuiTheme({
-                                                    palette: {
-                                                      primary: { main: '#1976d2' },
-                                                    },
-                                                  }, esES)
-                                            }
-                                            label="Fecha de registro"
-                                            value={this.state.fechaRegistro}
-                                            onChange={value => this.setState({fechaRegistro: value})}
-                                        />
-                                    </MuiPickersUtilsProvider>
-                                
+                                    <Form.Control as="select" defaultValue={this.state.proveedor}>
+                                    </Form.Control>
+                                </Grid>
+                                <Grid item xs={1} align="center" style={{marginTop:10}}>
+                                    <label>Fecha de registro:</label>
+                                </Grid>
+                                <Grid item xs={2} style={{marginTop:10}}>
+                                    <Form.Control type="text" className="text-center" disabled defaultValue={this.state.fechaRegistro.substring(12,16)+'   '+this.state.fechaRegistro.substring(0,10)}/>
                                 </Grid>
                             </Grid>
                     </Grid>
